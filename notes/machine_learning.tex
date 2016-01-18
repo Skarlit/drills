@@ -1,0 +1,165 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[margin=0.3in]{geometry}
+\geometry{letterpaper}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\setlength{\columnseprule}{0.4pt}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newenvironment{proof}[1][Proof]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{mydef}[1][Definition]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{example}[1][Example]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newenvironment{props}[1][Properties]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
+
+\newcommand{\qed}{\nobreak \ifvmode \relax \else
+      \ifdim\lastskip<1.5em \hskip-\lastskip
+      \hskip1.5em plus0em minus0.5em \fi \nobreak
+      \vrule height0.75em width0.5em depth0.25em\fi}
+      
+\newcommand{\probspace} {$(\Omega, \mathscr{F}, P)$}
+\newcommand{\sigmaField} {$\mathscr{F}$}
+\newcommand{\samspace} {$\Omega$}
+\newcommand{\real}{ \mathscr{R}}
+\newcommand{\bt}[1]{\textbf{\textit{#1}}}
+
+\begin{document}
+\section*{Measure}
+\begin{mydef}
+	A \bt{sigma algebra} \sigmaField of subsets of \samspace:
+	\begin{itemize}
+		\item \samspace $\in$ \sigmaField
+		\item close under union and intersection
+		\item close under complement
+	\end{itemize}
+\end{mydef}
+
+\begin{mydef}
+	A set function $\mu$ on \sigmaField is a \bt{measure} if (Probability measure if $\mu (\Omega ) = 1$):
+	\begin{itemize}
+		\item $\mu (A)\in [0, \infty]$ for all $A \subset$ \samspace
+		\item $\mu (\emptyset) = 0$
+		\item close under complement
+		\item $\mu (\bigcup^{\infty}_k A_k) = \sum^{\infty}_k \mu (A_k)$ where $\{A_k\}$ is disjoint sequence in $\mathscr{F}$ and $\bigcup^{\infty}_kA_k \in \mathscr{F}$
+	\end{itemize}
+\end{mydef}
+
+\begin{mydef}
+	\bt{Outer measure} $\mu^*$ is function defined on all subsets of \samspace:
+	\begin{itemize}
+		\item $\mu^*(A)\in [0, \infty]$ for all $A \subset$ \samspace
+		\item $\mu^*(\emptyset) = 0$
+		\item $\mu^*$ is monotone: $\mu^*(A) \leq \mu^*(B)$ if $A \subset B$
+		\item $\mu^*$ is countably subadditive: $\mu^*(\bigcup_nA_n) \leq \sum_n \mu^*(A_n)$
+	\end{itemize}
+\end{mydef}
+
+\begin{mydef}
+	\bt{Lebesgue measure} $\lambda_k$ on $\real ^k$  \textit{(Note: $R$ denote euclidean space. $\mathscr{R}$ denotes sigma field on euclidean space.)} 
+	\begin{itemize}
+		\item $\lambda_k(\{(x_1, ..., x_k)| a_i < x_i < b_i\}) = \prod^k_{i=1}(b_i - a_i)$
+		\item $\lambda_k(A) = \lambda_k(A+x)$ (translation invariance)
+		\item $\lambda_k(TA) = |\det{T}|\lambda_k(A)$, $T$ is linear and nonsingular.
+		\item $\lambda_k$ is regular (finite measure to bounded set)
+	\end{itemize}
+\end{mydef}
+
+\begin{mydef}
+	Function $T$ between two measure spaces $(\Omega, \mathscr{F})$ and $(\Omega', \mathscr{F}')$ is \bt{measurable} $\mathscr{F}/\mathscr{F'}$ if $\forall A \in \mathscr{F}',  T^{-1}A \in \mathscr{F}$. We say $T$ is \bt{measurable} $\mathscr{F}$ if it is measurable $\mathscr{F}/\mathscr{R}^1$.
+\end{mydef}
+
+\begin{mydef}
+\bt{Probability Space} is denoted as \probspace 
+\end{mydef}
+
+\begin{mydef}
+ A \bt{random variable} on \probspace  is a real-valued function $X=X(\omega)$ measurable $\mathscr{F}$. A \bt{random vector} is mapping from $\Omega$ to $R^k$ that is measurable $\mathscr{F}$. e.g. $X(\omega) = (X_1(\omega),...,X_k(\omega))$.(pdf)
+\end{mydef}
+
+\begin{mydef}
+	The \bt{distribution of random variable} $X$ is the probability measure $\mu$ on $(R^1, \mathscr{R}^1)$ defined by
+	$$ \mu ( A) = P[X \in A], \ \ \ A\in \mathscr{R}^1$$ 
+	($P[X\in A]$ means $P[\omega: X(\omega) \in A]$. (cdf)
+\end{mydef}
+
+\begin{mydef}
+	The \bt{distribution function of random variable}  $X$ is $$ F(x) = \mu (-\infty, x] = P[X \leq x]$$. If $F$ is right-continuous, and non-decreasing, there is a random variable $X$ on some \probspace  corresponding to $F$.
+\end{mydef}
+
+\section*{Integration}
+\subsection*{\textit{Let $f,g$ be real measurable function on \probspace}}
+\begin{mydef}
+	The \bt{definite integral} is denoted: $$ \int f d\mu = \int_\Omega f(\omega)d\mu (\omega) = \int_\Omega f(\omega) \mu (d\omega)$$ is defined by 
+	$$\int f d\mu = \int f^+ d\mu - \int f^- d\mu$$
+	and
+	$$\int f^{\pm} d\mu = \sup \sum_i \left[\inf\limits_{\omega\in A_i} f^{\pm}(\omega ) \right] \mu (A_i)$$ Where $\{A_i\}$ is a finite decomposition of $\Omega$ into $\mathscr{F}$-sets.
+\end{mydef}
+
+\begin{props} General integral:
+	\begin{itemize}
+		\item Monotonicity
+		\item Linearity
+		\item (Monotone Convergence) \\  if $ 0 \leq f_n \uparrow f$ almost everywhere then $\int f_n d\mu \uparrow \int f d\mu$
+		\item (Fatou's lemma) \\  $\int \liminf\limits_n f_n d\mu \leq \liminf\limits_n \int f_n d\mu,  f_n\ge 0.$
+		\item (Dominated Convergence THM) \\ $|f_n| \leq g$ almost everywhere ($g$ integrable), $f_n \rightarrow f$ almost everywhere,  then $f$, $f_n$ integrable and $\int f_n d\mu \rightarrow \int fd\mu$
+		\item $f, g$ integrable and $\int_A fd\mu = \int_A g d\mu$ for all $A in \mathscr{F}$, then $f=g$ almost everywhere.
+	\end{itemize}
+\end{props}
+
+\begin{mydef}
+	If $\delta$ is nonnegative measurable function, define measure $v$ $$ v(A) = \int_A \delta d\mu, A \in \mathscr{F}$$. Then $v$ is said to have \bt{density} $\delta$ wrt to $\mu$.
+\end{mydef}
+
+\begin{props}
+	$\int f dv = \int f \delta d \mu$
+\end{props}
+
+\begin{mydef}
+	If $\delta$ is nonnegative measurable function, define measure $v$ $$ v(A) = \int_A \delta d\mu, A \in \mathscr{F}$$. Then $v$ is said to have \bt{density} $\delta$ wrt to $\mu$.
+\end{mydef}
+
+
+\begin{mydef}
+	\bt{Transformatin of Measure}: Given measurable mapping $T$ between $(\Omega, \mathscr{F})$ and $(\Omega', \mathscr{F}')$. For a measure $\mu$ on $\mathscr{F}$, define set function $\mu T^{-1}$ on $\mathscr{F}'$ by  $$\mu T^{-1}(A') = \mu (T^{-1}A'), \forall A' \in \mathscr{F}'$$
+\end{mydef}
+
+\begin{mydef}
+	\bt{Change of variable}: Suppose $f$ is real function on $\Omega'$ measurable $\mathscr{F}'$, so $fT$ is real function on $\Omega$ measurable $\mathscr{F}$. \\
+	$f$ is nonnegative or (integratable wrt $\mu T^{-1}$ $	\Leftrightarrow$  $fT$ integrable wrt $\mu$). The following hold:
+	 $$\int_\Omega f(T\omega)\mu (d\omega) = \int_{\Omega'} f(\omega')\mu T^{-1}(d\omega')$$
+	 $$\int_{T^{-1}A'} f(T\omega)\mu (d\omega) = \int_{A'} f(\omega')\mu T^{-1}(d\omega')$$
+\end{mydef}
+
+\section*{Probability Basics}
+
+
+\begin{props} 
+    (Probability measure)
+	\begin{itemize}
+	  \item $p(A\vee B) = p(A) + p(B) - p(A\wedge B)$ 
+	  \item $p(A, B) = p(A \wedge B) = p(A|B)p(B)$ 
+	  \item $p(A) = \sum\limits_b p(A, B) = \sum\limits_b p(A|B=b)p(B=b)$  
+	  \item $p(X_{1:D}) = p(X_1)p(X_2|X_1)p(X_3|X_2,X_1)...p(X_D|X_{1:D-1})$ 
+	  \item $p(A|B) = \frac{p(A, B)}{p(B)}$ if $p(B)>0$ 
+	  \item $p(X=x|Y=y)=\frac{p(X=x, Y=y)}{p(Y=y)} = \frac{p(X=x)p(Y=y|X=x)}{\sum_{x'}p(X=x')p(Y=y|X=x')}$ 
+	  \item $ X\perp Y \Longleftrightarrow p(X, Y)=p(X)p(Y)$ 
+	  \item $X\perp Y | Z \Longleftrightarrow p(X, Y|Z) = p(X|Z)p(Y|Z)$ 
+	  \item $X\perp Y|Z  \Longleftrightarrow p(x,y|z)=g(x,z)h(y,z)\ \forall x,y,z\ s.t\ p(z) > 0$
+	  \item $ F(q) = p(X \leq q)$ 
+	  \item $ f(x) = \frac{d}{dx} F(x)$
+	  \item $P(a< X \leq b) = F(b) - F(a) = \int^b_a f(x) dx $ 
+	  \item $Unif(x|a,b) = \frac{1}{b-a}I(a \leq x \leq b)$ 
+	  \item $cov[X,Y] = E[(X-EX)(Y-EY)]=E[XY] - E[X][Y]$ 
+	\end{itemize}
+\end{props}
+\end{document}

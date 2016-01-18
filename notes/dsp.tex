@@ -1,0 +1,32 @@
+% Template created by Karol Kozioł (www.karol-koziol.net) for ShareLaTeX
+
+\documentclass[11pt,twocolumn]{article}
+
+\begin{document}
+
+
+\section*{Preliminaries}
+  Sinusoidal:  $\sin(2\pi f n)$ \\
+  General Sinusoidal: $ A \sin(2\pi f n + \phi) $ \\
+  Sampling Freq: $f_s$  (1 sample every $t_s =\frac{1}{f_s}$ secs) \\
+  Sampled Sine Wave: $x(n) = \sin(2\pi f_0 nt_s)$ \\
+  Absolute Frequency depends on $f_s$ \\
+  Power Level: $\|x(n)\|^2,  \|X(k)\|^2$ 
+  
+\section*{LTI system}
+  Linear:
+  $$T(c_1x_1(n)+c_2x_2(n)) = c_1T(x_1(n)) + c_2 T(x_2(n))$$ \\
+  Time Invariant:
+  $$ x(n) \rightarrow y(n), x(n+k) \rightarrow y(n+k) $$
+ 
+\section*{Sampling}
+	Sampled values of sinewave of $f_0$Hz and $f_0+kf_s$Hz are indistinguishable. 
+\section*{DFT}
+  $$X(k) = \sum^{N-1}_{n=0} x(n)e^{-j2\pi nk/N}, \ \ k = 0,2,...N-1 $$ \\
+  $$x(n) = \frac{1}{\sqrt{N}} \sum^{N-1}_{k=0} X(k)e^{j2\pi nk/N}, \ \ n = 0,2,...N-1$$ \\
+  
+Decibel (Peak often normalized to 0): $20 \log_{10}{X(k)}$ \\
+Fundamental Frequency: $\frac{f_s}{N}$ \\
+Analysis Frequency: $f_{analysis} = \frac{kf_s}{N}$ \\
+Phase: $X_{\theta}(k) = \tan^{-1}\left(\frac{X_{imag}(k)}{X_{real}(k)}\right)$ \\
+\end{document}

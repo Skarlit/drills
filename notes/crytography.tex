@@ -1,0 +1,92 @@
+\documentclass[12pt]{book}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\newtheorem{mydef}{Definition}
+\newtheorem{mylemma}{Lemma}
+\newtheorem{mythm}{Theorem}
+
+\newcommand{\mk}{\mathcal{K}}
+\newcommand{\mc}{\mathcal{C}}
+\newcommand{\mm}{\mathcal{M}}
+\newcommand{\mr}{\mathcal{R}}
+\newcommand{\bs}[1]{\{0, 1\}^#1}
+\newcommand{\abs}{\bigg\vert}
+
+\begin{document}
+\chapter*{Stream Cipher}
+\section{Symmetric Ciphers}
+\begin{mydef}
+	\textbf{Cipher}: a cipher defined over $(\mk, \mm, \mc)$ is a pair of "efficient" algs $(E,D)$ where $E: \mk \times \mm \rightarrow \mc,\ D:\mk\times\mc \rightarrow \mm $ s.t $\forall m \in \mm, k \in \mk,\ D(k, E(k, m)) = m$
+\end{mydef}
+
+\begin{mydef}
+	\textbf{One Time Pad}: $\mm = \mc = \bs{n},\ \mk = \bs{n}$,  $c=E(k, m) = k\oplus m,\ D(k, c) = k \oplus c.$
+\end{mydef}
+
+\begin{mydef}
+	Shannon(1949): A cipher $(E, D)$ over $(\mk, \mm, \mc)$ has \textbf{perfect secrecy} if $\forall m_0, m_1\in \mm (len(m_0) len(m_1))$ and $\forall c \in \mc$ 
+	$$ Pr[E(k, m_0) = c] = Pr[E(k, m_1) = c]$$
+Where $k$ is uniform in $\mk$.
+\end{mydef}
+
+\begin{mylemma}
+	One Time Pad has prefect secrecy.
+\end{mylemma}
+
+\begin{mythm}
+	Perfect secrecy implies key length $\geq$ message length.
+\end{mythm}
+
+\section{Stream Ciphers}
+idea: replace "random" key with PRG(pseudorandom) key.
+
+\begin{mydef}
+	PRG: $G:\bs{s}_{(seed\ space)} \rightarrow \bs{n}, where\ n >> s$ and 
+	$$ c= E(k, m) = m \oplus G(k) \ , \ m= D(k, c) = c \oplus G(k) $$
+\end{mydef}
+
+\begin{mydef}
+ Predictability: a PRG,  $G:\mk \rightarrow \bs{n}$ is \textbf{predictable} if $\exists$ efficient algorithm $A$ and $1\leq i \leq n -1$ s.t 
+ $$Pr\left[A(G(k)|_{1,...,i}) = G(k)|_{i+1} \right] \geq \frac{1}{2} + \epsilon $$
+ where $k$ is uniform on $\mk$,  for some non-negligible $\epsilon$.
+\end{mydef}
+
+\begin{mydef}
+ Unpredictability: a PRG is \textbf{unpredictable} if it is not predictable: $\forall i$, no efficient algorithm can predict $i+1$ bit for non-negligible $\epsilon$.
+\end{mydef}
+
+\begin{mydef}
+ $\epsilon: \mathbb{Z}^{\geq 0} \rightarrow {\mr}^{\geq 0}$ is non-negligible if $\exists d: \epsilon(\lambda) \geq \frac{1}{\lambda^d}$ infinitely often.
+\end{mydef}
+
+\section{Security of PRG}
+
+\begin{mydef}
+	a \textbf{Statistical Test} on $\bs{n}$ is an algorithm $A$ such that $A(x) \in \{0,1\} $ ( $0$ denotes $x$ is not random, $1$ denotes random) 
+\end{mydef}
+
+\begin{mydef}
+	\textbf{Advantage} of PRG:
+	$$Adv_{PRG}[A, G] = \abs Pr[A(G(k))=1] - Pr[A(r)=1] \abs \in [0,1]$$
+	where $r$ is truely random on $\mk$ (uniform). \\
+	$Adv \rightarrow 1$ means $A$ can distinct $G$ from random.\\
+	$Adv \rightarrow 0$ means $A$ cannot distinct $G$ from random.
+\end{mydef}
+
+\begin{mydef}
+	$G:\mk \rightarrow \bs{n}$ is \textbf{secure} PRG if for all efficient statistical tests $A$, $Adv_{PRG}[A,G]$ is negligible.
+\end{mydef}
+
+\begin{mythm}
+	PRG predictable iff PRG is insecure. PRG unpredictable iff PRG is secure.
+\end{mythm}
+
+\begin{mydef}
+	Let $P_1$, $P_2$ be two distributions over $\bs{n}$. $P_1$ and $P_2$ are computationally indistinguishable denoted by $P_1 \approx_p P_2$ if for all efficient statistical tests $A$
+	$$\abs Pr_{k \leftarrow P_1}[A(k)=1] - Pr_{k \leftarrow P_2}[A(k)=1]\abs < neg$$
+\end{mydef}
+
+\begin{mylemma}
+	A PRG is secure if $$\{ G(k)\ \vert \ k \leftarrow \mk\} \approx_p uniform(\bs{n})$$
+\end{mylemma}
+\end{document}

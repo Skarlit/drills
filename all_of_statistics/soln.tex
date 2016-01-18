@@ -1,0 +1,249 @@
+\documentclass{article}
+\usepackage{amsmath}
+\newcommand{\SOL}[2]{%
+  \textbf{Soln #1}\\%
+}
+
+
+\parindent 0in
+\parskip 1em
+\begin{document}
+\section*{Chapter 1: Probability}
+\SOL{1.3.a}
+For any $m, n$ and $m < n$, 
+\begin{align*}
+   B_m &= \bigcup^\infty_{i = m } A_i = \lim_{s\rightarrow\infty}\bigcup^s_{i=m}A_i \\
+   &= \lim_{s\rightarrow\infty}\bigcup^s_{i=n}A_i \cup \bigcup^n_{i=m} A_i \\
+   &= B_n \cup \bigcup^n_{i=m} A_i
+\end{align*}
+Hence $\{B_n\}$ is a monotonic decreasing sequence.
+The same argument holds for $\{C_n\}$.
+
+\SOL{1.3.b}
+\\
+\begin{align*}
+	\omega \in \bigcap^{\infty}_{n=1} B_n &\Leftrightarrow \omega \in B_n, \ \forall n  \\
+	&\Leftrightarrow \omega \in B_1 \\
+	&\Leftrightarrow \omega \in A_n, \ \forall n
+\end{align*}
+
+\SOL{1.3.c}
+\\
+$\omega \in \bigcup^{\infty}_{n=1} C_n \Leftrightarrow \omega \in C_{m \in M}$.
+By monotonicity of $C_n$, there is a finite $m$ such that $\omega \in C_{\{\forall n \geq m \}}$ and $\omega \not\in C_{\{1..m\}}$. By definition of $C_n$, $\omega$ is not in $A_1, ..., A_{m}$ but in $A_{m}, ....$.  The converse holds as well.
+
+\SOL{1.12}
+\\
+Let $G$ denotes green side,  $(GG, RR, GR)$ be the 3 cards respectively. $s1$ be the side we pick, $s2$ be the other side. \\
+\begin{align*}
+P(s2=G | s1= G) &= \frac{P(s2 = G, s1 = G)}{P(s1=G)}  \\
+ &= \frac{P(GG)}{P(s1 = G | GG)P(GG) + P(s1 =G | GR)P(GR) + P(s1 =G | RR)P(RR)} \\
+ &= \frac{ 1/3 }{ 1/3 ( 1 + 1/2 + 0) } \\
+ &= \frac{2}{3}
+\end{align*}
+
+
+
+\section*{Chapter 2: Random Variable}
+\SOL{2.4.a}
+\\
+$$ F_X(x) = 
+	\begin{cases}
+		0 & if\ x \leq 0 \\
+		\frac{x}{4} = 0 + \int_0^x \frac{1}{4} dt & if\ 0 < x < 1 \\
+		\frac{1}{4} & if\  1 \leq x \leq 3 \\
+		\frac{1}{4} + \frac{8}{3}(x - 3) &  if\ 3 < x < 5 \\
+		1 & x \geq 5
+	\end{cases}
+$$
+\SOL{2.4.b}
+\\
+\begin{align*}
+     F_Y(y) = P(A_y &= \{ x | x >= \frac{1}{y} \}) \\
+      &= \int^\infty_{1/y} f_X(x)dx = 1 - F_X(\frac{1}{y})
+\end{align*} 
+For $5 \leq x= \frac{1}{y} \Rightarrow  y \leq \frac{1}{5},\ F_Y(y) = 1 - 1 = 0$ \\ \\
+For $ 3 < x < 5 \Rightarrow  \frac{1}{5} < y < \frac{1}{3}, \ F_Y(y) = 1 - (\frac{1}{4} - \frac{8}{3}(\frac{1}{y} - 3)) = $ \\ \\ 
+For $ 1 \leq x \leq 3 \Rightarrow \frac{1}{3} \leq y \leq 1, \ F_Y(y) = 1 - \frac{1}{4}$ \\ \\ 
+For $0 < x < 1 \Rightarrow 1 < y, \ F_Y(y) = 1 - \frac{1}{4y}$ \\  \\
+Taking the derivative, we get the pdf. \\
+$$ f_Y(y) =
+	\begin{cases}
+		0 &  y < \frac{1}{5} \\
+		- \frac{8}{3y^2} &  \frac{1}{5} \leq y < \frac{1}{3} \\
+		0 &  \frac{1}{3} \leq y < 1 \\
+		\frac{1}{4y^2} & 1 \leq y
+	\end{cases}
+$$
+\SOL{2.6}
+\\
+$F_Y(y) = P( Y \leq y) = P( I_A(X) \leq y) = P(\{ x | I_A(x) \leq y \}) = P(A_y)$ \\ \\
+If $y \geq 1$, then $\forall x, I_A(x) \leq y \Rightarrow A_y = \Omega, \ P(A_{y \geq 1}) = P(\Omega) = 1$ \\ \\
+If $y < 1$, then $\forall x \not\in A, I_A(x) = 0 < y$, but $\forall x \in A, I_A(x)= 1 > y$.  So  $A_y = \{ x | x \in A^c \} \Rightarrow P(A_{y < 1}) = \int_{A^c} f_X(x)dx.$ \\
+$$ F_Y(y) =
+  \begin{cases}
+  1 & if \ y \geq 1 \\
+  c=\int_{A^c} f_X(x)dx & if \ y < 1
+  \end{cases}
+$$ 
+\SOL{2.7}
+\\
+Since $X, Y$ are independent, $f_{X,Y} (x,y) = f_X(x)f_Y(y) = 1$  \\
+$P(Z < z) = 1$ if $z \geq 1$,  0 if $z \leq 0$ \\ \\
+If $0 < z < 1$, $P(Z > z) = P(min\{X, Y\} > z) = \int_z^1 \int_z^1 f_{X,Y}(x,y) dxdy = (z-1)^2$ \\ \\
+Then $P(Z \leq z) = 1 - P(Z > z) = 1 - (z-1)^2 = 2z - z^2 $ \\
+$$ F_Z(z) = 
+	\begin{cases}
+		0 & if\ z < 0 \\
+		2z-z^2 & if\ 0 \leq z < 1 \\
+		1 & if\  z \geq 1
+	\end{cases}
+$$
+$$ f_Z(z) = \frac{d}{dz} F_Z(z) =
+ \begin{cases}
+   0 & otherwise \\
+   \frac{d}{dz} (2z - z^2) = 2 - 2z & if\ 0\leq z < 1
+ \end{cases}
+$$
+\\
+\SOL{2.16}
+\\
+Suppose $X \sim Poi(\lambda), Y \sim Poi(\mu)$ and $X \perp Y$. \\
+$$P(X=k|X+Y=n) = \frac{P(X+Y=n| X=k)P(X=k)}{P(X+Y = n)} $$
+Note that $P(X+Y=n| X=k) =P(Y=n-k) = \frac{\mu^{n-k}e^{-\mu}}{(n-k)!}$ \\
+$P(X=k) = \frac{\lambda^k e^{-\lambda}}{k!}$ \\
+$P(X+Y=n) = \sum^{\infty}_{i = 0} P(X=i)P(Y=n-i) =  \sum^{\infty}_{i = 0}\frac{\mu^{n-i}e^{-\mu} \lambda^i e^{-\lambda}}{(n-i)!i!}$ \\
+Hence, 
+\begin{align*}
+P(X=k|X+Y=n) &= \frac{ \frac{\mu^{n-k}e^{-\mu} \lambda^k e^{-\lambda}}{(n-k)!k!} }{\sum^{\infty}_{i = 0}\frac{\mu^{n-i}e^{-\mu} \lambda^i e^{-\lambda}}{(n-i)!i!}} \\
+&= \frac{ \lambda^{k} \mu^{n-k} \binom{n}{k}}{ \sum^{n}_{i=0} \lambda^{i} \mu^{n-i} \binom{n}{i}} \\
+&=  \binom{n}{k} \frac{ \lambda^{k} \mu^{n-k}}{ (\lambda + \mu)^n} \\
+&=  \binom{n}{k} \frac{ \lambda^{k} \mu^{n-k}}{ (\lambda + \mu)^k (\lambda + \mu)^{n-k}} \\
+&=  \binom{n}{k} \left(\frac{\lambda}{\lambda + \mu} \right)^k  \left(\frac{\mu}{\lambda + \mu} \right)^{n-k}  \\
+&=  \binom{n}{k} p^k (1-p)^{n-k} \ \ \ (\mbox{given that } p = \frac{\lambda}{\lambda + \mu} )
+\end{align*}
+\\
+\section*{Chapter 3: Expectation}
+\SOL{3.1}
+\\
+To Find $X_n$, Let $I_i$ be the random variable for multiplication factor at $i$th trial and $c$ be starting fortune. Since $I_i$ are i.i.d uniform, $X_n \sim B(n, \frac{1}{2})$ \\
+$$ P(X_n = c2^i \frac{1}{2^{n-i}}) = B(n, \frac{1}{2})  = \binom{n}{i} \frac{1}{2^n} $$ \\
+$$ E(X_n) = c \sum^n_{i=0} \binom{n}{i} \frac{2^i}{2^{n-i}}\frac{1}{2^n} = c \sum^n_{i=0} \binom{n}{i} \frac{1}{4^{n-i}} = c (\frac{5}{4})^n$$
+\SOL{3.2}
+\\
+$V(X) = E(X-\mu)^2 = 0 \Rightarrow (X-\mu)^2 = 0 \Rightarrow X = \mu$  almost everywhere. \\ \\
+$$ P(X=\mu) = \int f_X(x) dx = 1$$ 
+Conversely, if $P(X=c) = 1 \Rightarrow X=c \ \mbox{almost everywhere} \Rightarrow V(X) = E(X- c)^2 = 0$ \\
+\SOL{3.4}
+\\
+Let $I_n \in \{1, -1\}$ be random variable of a step. Then $E(X_n) = E(\sum_i I_i) = \sum E(I_i) = n(-p + (1-p)) = n(1-2p)$. \\ \\
+To find $V(X_n)$, note that $E(I_iI_i) = 1$, for $i \neq j, I_iI_j \sim B(2, p)$, which means 
+\begin{align*}
+ P(I_iI_j = (-1)^i(1)^{2-i}) & = \binom{2}{i}p^i(1-p)^{2-i} \\ \\
+    \Longrightarrow E(I_iI_j) &= \sum^2_0 (-1)^i(1)^{2-i} \binom{2}{i}p^i(1-p)^{2-i}, \ \ (i \neq j) \\
+    &= (1-p)^2 - 2p(1-p) + p^2  \\
+    &= (1-2p)^2 \\ \\
+    \Longrightarrow V(X_n) &= EX^2_n - (EX_n)^2 \\
+       &= E(\sum I_iI_j) - n^2(1-2p)^2 \\
+       &= \sum E(I_iI_j) - n^2(1-2p)^2 \\
+       &= n + \binom{n}{2}(1-2p)^2 - n^2(1-2p)^2 \\
+       &= n - n(\frac{n+1}{2})(1-2p)^2
+\end{align*}
+\\
+\SOL{3.5}
+\\
+Let $X$ be the number of toss before the first head appears. $EX = \sum^{\infty}_{k = 1} (1-p)^{k - 1}p =  \frac{1}{p} = 2$ 
+
+\section*{Chapter 4: Inequalities}
+\SOL{4.1}
+\\ \\
+Given $X \sim \lambda e^{-\lambda x}$ \\
+\begin{align*}
+P(|X - \mu| \geq k\sigma) &= P(X \geq k\sigma + \mu) + P( X \leq \mu - k\sigma) \\
+    &= \int_{k\sigma + \mu}^{\infty} \lambda e^{-\lambda x} + \int_{0}^{ \mu - k\sigma} \lambda e^{-\lambda x} \\
+    &= e^{1-k} - e^{k-1} + 1, \ \ \ ( \sigma = \mu = \frac{1}{\lambda} )
+\end{align*}
+
+Note that Chebyshev's inequality gives a tight upper bound of $\frac{1}{k}$. \\ 
+To see this, obviously for $k > 1$, we have $e^{1-k} - e^{k-1} + 1 < \frac{1}{k}$ for $k> 0$, equality holds when $k = 1$ \\
+For $0 < k < 1$, Let $y = 1 - k$, then $ 0< y < 1$, we only need to show that $e^y - e^{-y} + 1 < \frac{1}{1- y}$. \\
+\begin{align*}
+   1 + e^y - e^{-y} &= 1 + \sum \frac{y^i}{i!} - \sum \frac{(-y)^i}{i!} \\
+                   &= 1 +  \sum_{i\ odd} \left( \frac{y^{i}}{i!} + \frac{y^{i}}{i!} \right)\ \ \ \mbox{(we can rerrange since series converge)} \\
+                   &< 1 + \sum_{i\ odd} y^{i+1} + y^{i} \\
+                   &= 1 + y + y^2 + ... \\
+                   &= \frac{1}{y-1}
+\end{align*}
+
+\section*{Chapter 9: Parametric Inference}
+\SOL{9.2.a}
+\\
+A j-th moment $\alpha_j (a, b) = EX^j = \frac{1}{b-a}\int^b_a x^j dx = \frac{b^{j+1} - a^{j+1}}{(j+1)(b-a)}$ \\ \\
+The methods of moments estimator $(\hat{a}, \hat{b})$
+\begin{align*}
+	\alpha_k (\hat{a}, \hat{b})&= \frac{\hat{b}^{k+1} - \hat{a}^{k+1}}{(k+1)(\hat{b} - \hat{a})} \\
+	 &= \frac{1}{n} \sum_i \hat{X}^k_i \ \ \ (\forall k)
+\end{align*}
+Note that $\alpha_1(\hat{a}, \hat{b}) = E\hat{X}  = \frac{\hat{a}+\hat{b}}{2}$  and $\alpha_2(\hat{a}, \hat{b}) = E\hat{X}^2 = \frac{\hat{b}^3 - \hat{a}^3}{3(\hat{b} - \hat{a})} = \frac{\hat{a}^2 + \hat{a}\hat{b} + \hat{b}^2}{3}$ \\
+Solving these two equations, we have  
+$$
+  \hat{a} = E\hat{X} - \sqrt{3V(\hat{X})}, \ \ \ \hat{b} = E\hat{X} +  \sqrt{3V(\hat{X})}
+$$ \\
+If we draw from $[0, 1]$, then $V(\hat{X})$ approximates the real variance which is $\frac{1}{12}(b - a)^2 = \frac{1}{12}$, and the $E\hat{X}$ approximates the expected value 0.5. So we have $\hat{a}$ approximating to 0, and $\hat{b}$ approximating to 1. \\ \\ 
+\SOL{9.2.b}
+\\
+$X_i$ are i.i.d,  Likelihood function $L(a,b) = \prod_i f(X_i;a,b)$. We maximize the logarithm. \\
+$$ l(a,b) = log(L(a,b)) = \sum_i log(f(X_i;a,b))$$
+Notice that if $X_i \not\in [a, b]$, then pdf evaluates to 0. So to maximize the likelihood function,  $ a = min(X_i)$, $b=max(X_i)$
+
+\section*{Chapter 23: Stochastic Processes}
+\SOL{23.1} \\
+We have directed graph $X_0 \rightarrow X_1 \rightarrow X_2$. Factoring the joint distribution, we have $P(X_0, X_1, X_2) = P(X_0) P(X_1|X_0)P(X_2|X_1)$. \\
+Hence, $P(X_0=0, X_1=1, X_2 = 2) = 0.3\times 0.2 \times 0 = 0$ \\
+$P(X_0=0, X_1=1, X_2 = 1) = 0.3 \times 0.2 \times 0.1 = 0.06$ \\
+
+\SOL{23.2} \\
+\\
+\begin{align*}
+p_{ij} = P(X_n = j | X_{n-1} = i) &= P(max(Y_0, ..., Y_n) = j | X_{n-1} = i) \\
+  &= P(max(X_{n-1}, Y_n) = j | X_n{n-1} = i )  \\
+  &= P(max(i, Y_n) = j) 
+\end{align*}
+For each pair of $(i, j$, we can find the probability of $p_{ij}$. Hence  $P = 
+\begin{pmatrix}
+   0.1 & 0.3 & 0.2 & 0.4 \\
+   0 & 0.4 & 0.2&  0.4 \\
+   0 & 0 & 0.6 & 0.4 \\
+   0 & 0 & 0 &  1
+\end{pmatrix}
+$  \\
+\SOL{23.3}
+To find $P^n$, we need to find the eigenvalue and eigenvectors of $P$. 
+\begin{align*}
+	& det(P - \lambda I ) = (1-a - \lambda)(1-b-\lambda) - ab = 0 \\
+	& \Rightarrow \lambda = 1, 1-a -b , v_1 = (\sqrt{2}, \sqrt{2}), v_{1-a-b} = \frac{1}{\sqrt{a^2+b^2}}(a, -b)
+\end{align*}
+Then 
+\begin{align*}
+& P  =V^{-1}DV \\
+&\Rightarrow P^n = V^{-1}D^nV = 
+\begin{pmatrix}
+	\sqrt{2} &  -\frac{a}{\sqrt{a^2 +b^2}} \\
+	\sqrt{2}  & \frac{b}{\sqrt{a^2+ b^2}}
+\end{pmatrix} 
+\begin{pmatrix}
+	1 & 0 \\
+	0 & (1-a-b)^n
+\end{pmatrix}
+\begin{pmatrix}
+	\sqrt{2} &  -\frac{a}{\sqrt{a^2 +b^2}} \\
+	\sqrt{2}  & \frac{b}{\sqrt{a^2+ b^2}}
+\end{pmatrix}^{-1} \\
+&= \frac{1}{a+b}
+\begin{pmatrix}
+  b + a \epsilon^n & a - a\epsilon^n \\
+  b - b \epsilon^n & a + b\epsilon^n
+\end{pmatrix} \ \ \ \ \   (\mbox{where } \epsilon = 1- a- b )
+\end{align*}
+Taking $n$ to infinity, we get the answer.
+\end{document}
