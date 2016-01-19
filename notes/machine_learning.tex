@@ -3,6 +3,7 @@
 \geometry{letterpaper}
 \usepackage{mathrsfs}
 \usepackage{amsfonts}
+\usepackage{amsmath}
 \setlength{\columnseprule}{0.4pt}
 
 \newtheorem{theorem}{Theorem}[section]
@@ -34,7 +35,7 @@
 \newcommand{\bt}[1]{\textbf{\textit{#1}}}
 
 \begin{document}
-\section*{Measure}
+\section*{Measure and Random Variable}
 \begin{mydef}
 	A \bt{sigma algebra} \sigmaField of subsets of \samspace:
 	\begin{itemize}
@@ -83,17 +84,24 @@
 \end{mydef}
 
 \begin{mydef}
- A \bt{random variable} on \probspace  is a real-valued function $X=X(\omega)$ measurable $\mathscr{F}$. A \bt{random vector} is mapping from $\Omega$ to $R^k$ that is measurable $\mathscr{F}$. e.g. $X(\omega) = (X_1(\omega),...,X_k(\omega))$.(pdf)
+ A \bt{random variable} on \probspace  is a real-valued function $X=X(\omega)$ measurable $\mathscr{F}$. A \bt{random vector} is mapping from $\Omega$ to $R^k$ that is measurable $\mathscr{F}$. e.g. $X(\omega) = (X_1(\omega),...,X_k(\omega))$.
 \end{mydef}
 
 \begin{mydef}
-	The \bt{distribution of random variable} $X$ is the probability measure $\mu$ on $(R^1, \mathscr{R}^1)$ defined by
+	The \bt{distribution (law) of random variable} $X$ is the probability measure $\mu = PX^{-1}$ on $(R^1, \mathscr{R}^1)$ defined by
 	$$ \mu ( A) = P[X \in A], \ \ \ A\in \mathscr{R}^1$$ 
-	($P[X\in A]$ means $P[\omega: X(\omega) \in A]$. (cdf)
+	($P[X\in A]$ means $P[\omega: X(\omega) \in A]$.
 \end{mydef}
 
 \begin{mydef}
 	The \bt{distribution function of random variable}  $X$ is $$ F(x) = \mu (-\infty, x] = P[X \leq x]$$. If $F$ is right-continuous, and non-decreasing, there is a random variable $X$ on some \probspace  corresponding to $F$.
+\end{mydef}
+
+\begin{mydef}
+	If $X = (X_1,...,X_k)$,
+	$$ \mu(A) = P[(X_1, ..., X_k) \in A], \ \ \ A\in \mathscr{R}^k$$
+	$$ F(x_1,...,x_k) = P[X_1\leq x_1, ... ,X_k \leq x_k]$$
+	$\mu, F$ are called \bt{joint distribution} and \bt{join distribution function} of $X$.
 \end{mydef}
 
 \section*{Integration}
@@ -125,11 +133,6 @@
 \end{props}
 
 \begin{mydef}
-	If $\delta$ is nonnegative measurable function, define measure $v$ $$ v(A) = \int_A \delta d\mu, A \in \mathscr{F}$$. Then $v$ is said to have \bt{density} $\delta$ wrt to $\mu$.
-\end{mydef}
-
-
-\begin{mydef}
 	\bt{Transformatin of Measure}: Given measurable mapping $T$ between $(\Omega, \mathscr{F})$ and $(\Omega', \mathscr{F}')$. For a measure $\mu$ on $\mathscr{F}$, define set function $\mu T^{-1}$ on $\mathscr{F}'$ by  $$\mu T^{-1}(A') = \mu (T^{-1}A'), \forall A' \in \mathscr{F}'$$
 \end{mydef}
 
@@ -138,6 +141,41 @@
 	$f$ is nonnegative or (integratable wrt $\mu T^{-1}$ $	\Leftrightarrow$  $fT$ integrable wrt $\mu$). The following hold:
 	 $$\int_\Omega f(T\omega)\mu (d\omega) = \int_{\Omega'} f(\omega')\mu T^{-1}(d\omega')$$
 	 $$\int_{T^{-1}A'} f(T\omega)\mu (d\omega) = \int_{A'} f(\omega')\mu T^{-1}(d\omega')$$
+\end{mydef}
+
+\begin{mydef}
+	Let $X\sim\mu$ and $Y\sim v$ be independent, \bt{Convolution} of $\mu$ and $v$ is defined as:
+	\begin{align*} 
+	 (\mu * v)(H) &= P[X+Y \in H] 	              \\
+	 &= \int^{\infty}_{-\infty}v(H-x)\mu (dx), \ \ \ H \in \mathscr{R}^1  \\
+	 &= \int^{\infty}_{-\infty} P[Y \in H - x]\mu (dx)
+	\end{align*}
+	If $\mu$ and $v$ are distribution functions $F$, $G$. And $f$, $g$ are densities Then
+	\begin{align*}
+		(F*G)(y) &= \int^{\infty}_{-\infty} G(y-x)dF(x) \\
+		   &= (f*g)(y) =  \int^{\infty}_{-\infty} g(y-x)f(x)dx 
+	\end{align*}
+\end{mydef}
+
+\begin{mydef}
+	\bt{Expected value} of $X$ on \probspace is defined as:
+	$$ E[X] = \int_\Omega X dP = \int_\Omega X(\omega)P(d\omega)$$
+	e.g. If $X \sim \mu$ and $g$ is real measurable $\mathscr{R}$, then
+	\begin{align*}
+		E[g(X)] &= \int_\Omega g(X) dP \\
+		&= \int_\Omega g(X(\omega))P(d\omega) \\
+		&= \int_R g(x)PX^{-1}(dx)  \ \ \ (chage\ of \ variable, X(\omega)=x) \\
+		&= \int_R g(x)\mu (dx) \ \ \ (PX^{-1} = \mu)
+	\end{align*}
+\end{mydef}
+
+\section*{Differentiaion}
+\begin{mydef}
+	Given two measures $\mu, v$, $v$ is said to be \bt{absolutely continuous} with respect to $\mu$, denoted $v \ll \mu$, if  $\mu(A) =0 \Rightarrow v(A)=0 \ \ \forall A \in \mathscr{F}$
+\end{mydef}
+\begin{mydef}
+	\bt{Radon-Nikodym theorem}: Given a measurable space $(\Omega, \mathscr{F})$, if two $\sigma$-finite measures $v, \mu$ and  $v \ll \mu$,  then there is a measurable function $f: X \rightarrow [0, \infty)$ such that:
+	$$v(A) = \int_A fd\mu \ \ \ (\forall A \subset X, \ \ f = \frac{dv}{d\mu})$$
 \end{mydef}
 
 \section*{Probability Basics}
